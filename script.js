@@ -71,6 +71,11 @@ const VoiceRSS={
             }throw"The browser does not support HTTP request"}};
 
 
+// Disable/Enable Button
+function toggleButton() {
+    button.disabled = !button.disabled;
+}
+
 // function test() {
 //     VoiceRSS.speech({
 //         key: '21849085679546e2917727f872db3ec2',
@@ -111,11 +116,16 @@ async function getJokes() {
         } else {
             joke = data.joke;
         }
+        // Text to Speech
         tellMe(joke);
-    } catch(error) {
+        // Disable Button
+        toggleButton();
+    } catch (error) {
         // Catch Errors here
         console.log('These Droids do not beling here');
     }
 }
 
-getJokes();
+// Event Listener
+button.addEventListener('click', getJokes);
+audioElement.addEventListener('ended', toggleButton);
