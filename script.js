@@ -71,10 +71,25 @@ const VoiceRSS={
             }throw"The browser does not support HTTP request"}};
 
 
-function test() {
+// function test() {
+//     VoiceRSS.speech({
+//         key: '21849085679546e2917727f872db3ec2',
+//         src: 'god fucking damnit LINDA',
+//         hl: 'en-us',
+//         v: 'Linda',
+//         r: 0, 
+//         c: 'mp3',
+//         f: '44khz_16bit_stereo',
+//         ssml: false
+//     });
+// }
+// test();
+
+// passing Our joke to our voiceRSS API
+function tellMe(joke) {
     VoiceRSS.speech({
         key: '21849085679546e2917727f872db3ec2',
-        src: 'god fucking damnit LINDA',
+        src: joke,
         hl: 'en-us',
         v: 'Linda',
         r: 0, 
@@ -83,4 +98,24 @@ function test() {
         ssml: false
     });
 }
-test();
+
+// Get Jookes from Joke API 
+async function getJokes() {
+    let joke = '';
+    const apiUrl = 'https://sv443.net/jokeapi/v2/joke/Any';
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (data.setup) {
+            joke = `${data.setup} ... ${data.delivery}`;
+        } else {
+            joke = data.joke;
+        }
+        tellMe(joke);
+    } catch(error) {
+        // Catch Errors here
+        console.log('These Droids do not beling here');
+    }
+}
+
+getJokes();
